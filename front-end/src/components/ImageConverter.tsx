@@ -205,16 +205,10 @@ export default function ImageConverter() {
       <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 py-6 sm:px-8 lg:px-10">
         <header className="flex items-center justify-between border-b border-[#deded5] pb-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#71736c]">Client-side studio</p>
+           
             <h1 className="mt-1 text-2xl font-semibold tracking-normal sm:text-3xl">Image Converter</h1>
           </div>
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="h-10 rounded-md bg-[#191b1f] px-4 text-sm font-medium text-white transition hover:bg-[#30343b]"
-          >
-            Choose Image
-          </button>
+          
         </header>
 
         <section className="grid flex-1 gap-6 py-6 lg:grid-cols-[1.15fr_0.85fr]">
