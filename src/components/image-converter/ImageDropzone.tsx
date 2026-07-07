@@ -1,8 +1,8 @@
 'use client';
 
-import type { ChangeEvent, DragEvent, RefObject } from 'react';
+import { useDropzone } from 'react-dropzone';
 
-import { acceptedImages } from './config';
+import { acceptedImageDropzone } from './config';
 import type { ConversionResult, ImageInfo } from './types';
 import { formatBytes } from './utils';
 
@@ -10,9 +10,6 @@ type ImageDropzoneProps = {
   file: File | null;
   imageInfo: ImageInfo | null;
   result: ConversionResult | null;
-  dragging: boolean;
-  fileInputRef: RefObject<HTMLInputElement | null>;
-  onDraggingChange: (dragging: boolean) => void;
   onFileSelect: (file: File | null | undefined) => void;
   onReset: () => void;
 };
@@ -21,38 +18,24 @@ export function ImageDropzone({
   file,
   imageInfo,
   result,
-  dragging,
-  fileInputRef,
-  onDraggingChange,
   onFileSelect,
   onReset,
 }: ImageDropzoneProps) {
-  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    onDraggingChange(false);
-    onFileSelect(event.dataTransfer.files[0]);
-  };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: acceptedImageDropzone,
+    multiple: false,
+    noClick: Boolean(file),
+    onDrop: ([nextFile]) => onFileSelect(nextFile),
+  });
 
   return (
     <div
-      onClick={() => !file && fileInputRef.current?.click()}
-      onDragOver={(event: DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        onDraggingChange(true);
-      }}
-      onDragLeave={() => onDraggingChange(false)}
-      onDrop={handleDrop}
+      {...getRootProps()}
       className={`flex min-h-[420px] flex-col overflow-hidden rounded-lg border border-dashed transition ${
-        dragging ? 'border-[#191b1f] bg-white' : 'border-[#c9c9bf] bg-[#fbfbf7]'
+        isDragActive ? 'border-[#191b1f] bg-white' : 'border-[#c9c9bf] bg-[#fbfbf7]'
       }`}
     >
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept={acceptedImages}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => onFileSelect(event.target.files?.[0])}
-        className="hidden"
-      />
+      <input {...getInputProps()} />
 
       {imageInfo ? (
         <div className="flex h-full flex-col">
@@ -65,7 +48,10 @@ export function ImageDropzone({
             </div>
             <button
               type="button"
-              onClick={onReset}
+              onClick={(event) => {
+                event.stopPropagation();
+                onReset();
+              }}
               className="h-9 rounded-md border border-[#cecec4] px-3 text-sm font-medium transition hover:border-[#191b1f]"
             >
               Clear

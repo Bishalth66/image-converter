@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { defaultFormat, formats } from './config';
 import type { ConversionResult, ImageInfo, OutputFormat } from './types';
@@ -16,9 +16,7 @@ export function useImageConverter() {
   const [lockAspect, setLockAspect] = useState(true);
   const [result, setResult] = useState<ConversionResult | null>(null);
   const [loading, setLoading] = useState(false);
-  const [dragging, setDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const selectedFormat = formats.find((format) => format.mime === targetFormat) ?? defaultFormat;
   const savings = file && result ? Math.round((1 - result.blob.size / file.size) * 100) : null;
@@ -104,7 +102,6 @@ export function useImageConverter() {
       setError('This image could not be opened by the browser. Try PNG, JPG, WEBP, AVIF, GIF, BMP, or SVG.');
     } finally {
       setLoading(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
     }
   };
 
@@ -190,11 +187,8 @@ export function useImageConverter() {
     lockAspect,
     result,
     loading,
-    dragging,
     error,
-    fileInputRef,
     savings,
-    setDragging,
     setLockAspect,
     updateTargetFormat,
     updateQuality,

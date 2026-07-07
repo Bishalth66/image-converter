@@ -7,6 +7,8 @@ export const formats: FormatOption[] = [
   { label: 'AVIF', mime: 'image/avif', extension: 'avif', lossy: true },
 ];
 
-export const acceptedImages = 'image/*,.jpg,.jpeg,.png,.webp,.avif,.gif,.bmp,.svg,.tif,.tiff,.heic,.heif';
+export const acceptedImageDropzone = {
+  'image/*': ['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif', '.bmp', '.svg', '.tif', '.tiff', '.heic', '.heif'],
+};
 
 export const defaultFormat = formats[2];

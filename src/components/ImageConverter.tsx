@@ -1,5 +1,4 @@
 'use client';
-
 import { ExportPanel } from './image-converter/ExportPanel';
 import { FormatPanel } from './image-converter/FormatPanel';
 import { ImageDropzone } from './image-converter/ImageDropzone';
@@ -21,9 +20,6 @@ export default function ImageConverter() {
             file={converter.file}
             imageInfo={converter.imageInfo}
             result={converter.result}
-            dragging={converter.dragging}
-            fileInputRef={converter.fileInputRef}
-            onDraggingChange={converter.setDragging}
             onFileSelect={converter.loadImage}
             onReset={converter.reset}
           />
