@@ -6,7 +6,14 @@ export type ImageInfo = {
   url: string;
 };
 
+export type ImageItem = ImageInfo & {
+  id: string;
+  file: File;
+};
+
 export type ConversionResult = {
+  id: string;
+  sourceName: string;
   blob: Blob;
   url: string;
   width: number;

@@ -5,6 +5,8 @@ import { formatBytes } from './utils';
 
 type ExportPanelProps = {
   file: File | null;
+  fileCount: number;
+  resultCount: number;
   selectedFormat: FormatOption;
   width: string;
   height: string;
@@ -18,6 +20,8 @@ type ExportPanelProps = {
 
 export function ExportPanel({
   file,
+  fileCount,
+  resultCount,
   selectedFormat,
   width,
   height,
@@ -29,6 +33,7 @@ export function ExportPanel({
   onDownload,
 }: ExportPanelProps) {
   const outputSize = result ? `${result.width} x ${result.height}` : width && height ? `${width} x ${height}` : 'Original';
+  const downloadLabel = resultCount > 1 ? `Download ${resultCount}` : 'Download';
 
   return (
     <div className="rounded-lg border border-[#deded5] bg-white p-4">
@@ -37,6 +42,10 @@ export function ExportPanel({
         <div className="flex justify-between gap-4">
           <span>Output</span>
           <span className="font-medium text-[#191b1f]">{selectedFormat.label}</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span>Files</span>
+          <span className="font-medium text-[#191b1f]">{fileCount || '-'}</span>
         </div>
         <div className="flex justify-between gap-4">
           <span>Size</span>
@@ -72,15 +81,15 @@ export function ExportPanel({
           disabled={!file || loading}
           className="h-11 rounded-md bg-[#191b1f] text-sm font-semibold text-white transition hover:bg-[#30343b] disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {loading ? 'Working...' : 'Convert'}
+          {loading ? 'Working...' : fileCount > 1 ? `Convert ${fileCount}` : 'Convert'}
         </button>
         <button
           type="button"
           onClick={onDownload}
-          disabled={!result}
+          disabled={resultCount === 0}
           className="h-11 rounded-md border border-[#bdbdb3] text-sm font-semibold transition hover:border-[#191b1f] disabled:cursor-not-allowed disabled:opacity-40"
         >
-          Download
+          {downloadLabel}
         </button>
       </div>
     </div>

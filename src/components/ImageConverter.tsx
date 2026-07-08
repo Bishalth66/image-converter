@@ -17,10 +17,11 @@ export default function ImageConverter() {
 
         <section className="grid flex-1 gap-6 py-6 lg:grid-cols-[1.15fr_0.85fr]">
           <ImageDropzone
-            file={converter.file}
-            imageInfo={converter.imageInfo}
+            items={converter.items}
+            activeId={converter.activeId}
             result={converter.result}
-            onFileSelect={converter.loadImage}
+            onFileSelect={converter.loadImages}
+            onActiveChange={converter.setActiveId}
             onReset={converter.reset}
           />
 
@@ -44,6 +45,8 @@ export default function ImageConverter() {
 
             <ExportPanel
               file={converter.file}
+              fileCount={converter.items.length}
+              resultCount={converter.results.length}
               selectedFormat={converter.selectedFormat}
               width={converter.width}
               height={converter.height}
